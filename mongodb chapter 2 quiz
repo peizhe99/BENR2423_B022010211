@@ -1,0 +1,63 @@
+user@M001# mongo "mongodb+srv://sandbox.yotw3.mongodb.net/myFirstDatabase" --username m001-student
+MongoDB shell version v4.4.3
+Enter password: 
+connecting to: mongodb://sandbox-shard-00-01.yotw3.mongodb.net:27017,sandbox-shard-00-02.yotw3.mongodb.net:27017,sandbox-shard-00-00.yotw3.mongodb.net:27017/myFirstDatabase?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-wi5kez-shard-0&ssl=true
+
+
+*** You have failed to connect to a MongoDB Atlas cluster. Please ensure that your IP whitelist allows connections from your network.
+
+Error: can't connect to new replica set master [sandbox-shard-00-01.yotw3.mongodb.net:27017], err: AuthenticationFailed: bad auth : Authentication failed. :
+connect@src/mongo/shell/mongo.js:374:17
+@(connect):2:6
+exception: connect failed
+exiting with code 1
+user@M001# mongo "mongodb+srv://sandbox.yotw3.mongodb.net/myFirstDatabase" --username m001-student
+MongoDB shell version v4.4.3
+Enter password: 
+connecting to: mongodb://sandbox-shard-00-02.yotw3.mongodb.net:27017,sandbox-shard-00-01.yotw3.mongodb.net:27017,sandbox-shard-00-00.yotw3.mongodb.net:27017/myFirstDatabase?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-wi5kez-shard-0&ssl=true
+Implicit session: session { "id" : UUID("713459ad-a742-4015-bb3b-6d31111a2bb1") }
+MongoDB server version: 5.0.6
+WARNING: shell and server versions do not match
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+        https://docs.mongodb.com/
+Questions? Try the MongoDB Developer Community Forums
+        https://community.mongodb.com
+MongoDB Enterprise atlas-wi5kez-shard-0:PRIMARY> use sample_training
+switched to db sample_training
+MongoDB Enterprise atlas-wi5kez-shard-0:PRIMARY> db.trips
+sample_training.trips
+MongoDB Enterprise atlas-wi5kez-shard-0:PRIMARY> db.trips.find
+function(query, fields, limit, skip, batchSize, options) {
+    var cursor = new DBQuery(this._mongo,
+                             this._db,
+                             this,
+                             this._fullName,
+                             this._massageObject(query),
+                             fields,
+                             limit,
+                             skip,
+                             batchSize,
+                             options || this.getQueryOptions());
+
+    {
+        const session = this.getDB().getSession();
+
+        const readPreference = session._getSessionAwareClient().getReadPreference(session);
+        if (readPreference !== null) {
+            cursor.readPref(readPreference.mode, readPreference.tags);
+        }
+
+        const readConcern = session._getSessionAwareClient().getReadConcern(session);
+        if (readConcern !== null) {
+            cursor.readConcern(readConcern.level);
+        }
+    }
+
+    return cursor;
+}
+MongoDB Enterprise atlas-wi5kez-shard-0:PRIMARY> db.trips.find({"birth year":1961,"start station name":"Howard St & Centre St"})
+{ "_id" : ObjectId("572bb8222b288919b68abf5b"), "tripduration" : 889, "start station id" : 268, "start station name" : "Howard St & Centre St", "end station id" : 3002, "end station name" : "South End Ave & Liberty St", "bikeid" : 22794, "usertype" : "Subscriber", "birth year" : 1961, "start station location" : { "type" : "Point", "coordinates" : [ -73.99973337, 40.71910537 ] }, "end station location" : { "type" : "Point", "coordinates" : [ -74.015756, 40.711512 ] }, "start time" : ISODate("2016-01-01T00:01:06Z"), "stop time" : ISODate("2016-01-01T00:15:56Z") }
+MongoDB Enterprise atlas-wi5kez-shard-0:PRIMARY> db.inspections.find({"date":"Feb 20 2015"}).count()
+320
