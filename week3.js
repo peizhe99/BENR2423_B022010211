@@ -60,4 +60,5 @@ client.connect(async err => {
             }
         }
     })
+    console.log("Done")
 });
